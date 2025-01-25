@@ -11,19 +11,22 @@ import { By } from '@angular/platform-browser';
 import { first } from 'rxjs';
 import { SimpleChange } from '@angular/core';
 
+jest.mock('../../services/todos.service')
+
 describe('TodoComponent', () => {
   let component: TodoComponent;
   let fixture: ComponentFixture<TodoComponent>;
-  let todosService: TodosService;
+  let todosService: jest.Mocked<TodosService>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TodoComponent, HttpClientTestingModule],
+      providers: [TodosService]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TodoComponent);
     component = fixture.componentInstance;
-    todosService = TestBed.inject(TodosService);
+    todosService = TestBed.inject(TodosService) as jest.Mocked<TodosService>;
     component.todo = {
       id: '1',
       text: 'foo',
@@ -48,7 +51,7 @@ describe('TodoComponent', () => {
   });
 
   it('should toggle a todo', () => {
-    jest.spyOn(todosService, 'toggleTodo').mockImplementation(() => {});
+    todosService.toggleTodo.mockImplementation(() => {});
     const toggle = fixture.debugElement.query(By.css('[data-testid="toggle"]'));
     toggle.nativeElement.click();
     expect(todosService.toggleTodo).toHaveBeenCalledWith('1');
