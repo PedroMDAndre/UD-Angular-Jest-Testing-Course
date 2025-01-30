@@ -7,15 +7,20 @@
       <input
         class="toggle"
         data-testid="toggle"
+        data-cy="todoCheckbox"
         type="checkbox"
         [checked]="todo.isCompleted"
         (change)="toggleTodo()"
       />
-      <label data-testid="label" (dblclick)="setTodoInEditMode()">{{
-        todo.text
-      }}</label>
+      <label
+        data-testid="label"
+        data-cy="todoLabel"
+        (dblclick)="setTodoInEditMode()"
+        >{{ todo.text }}</label
+      >
       <button
         data-testid="destroy"
+        data-cy="destroy"
         class="destroy"
         (click)="removeTodo()"
       ></button>
@@ -23,6 +28,7 @@
     <ng-container *ngIf="isEditing">
       <input
         data-testid="edit"
+        data-cy="todoEdit"
         class="edit"
         #textInput
         [value]="editingText"
